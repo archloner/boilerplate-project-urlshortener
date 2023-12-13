@@ -50,7 +50,6 @@ app.get('/hello', function(req, res) {
 router.post('/shorturl', function(req, res) {
   const url = req.body.url;
   console.log('Request body url: ' + url)
-  console.log('request body (full): ' + req.body)
   console.log('typeof req.body = ' + typeof req.body)
   dns.lookup(url, (err, address) => {
 
