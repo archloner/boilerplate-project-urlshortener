@@ -99,7 +99,7 @@ router.post('/shorturl', function(req, res, next) {
     } else {
       console.log('error while dns lookup')
       console.log(err)
-      res.json({'error': 'URL not valid'});
+      res.json({'error': 'DNS lookup error', msg: err});
     }
     return;
   });
