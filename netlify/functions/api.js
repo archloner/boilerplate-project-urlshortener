@@ -60,7 +60,7 @@ function get(urlId) {
   return localStorage.getItem(urlId);
 }
 
-router.post('/shorturl', function(req, res, next) {
+router.post('/api/shorturl', function(req, res, next) {
   // Middleware
   next();
 }, function(req, res) {
@@ -121,7 +121,7 @@ router.post('/shorturl', function(req, res, next) {
   });
 })
 
-router.get('/shorturl/:urlId', (req, res) => {
+router.get('/api/shorturl/:urlId', (req, res) => {
   console.log(req.params.urlId);
   const id = req.params.urlId;
   if (id != null) {
