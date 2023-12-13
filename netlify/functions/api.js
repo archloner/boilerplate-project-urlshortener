@@ -11,11 +11,11 @@ const dns = require('dns')
 require('dotenv').config();
 
 let router = Router();
-app.use('/api', router);
+app.use('/', router);
 
 
 let mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_REMOTE_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://mongophil:993Jrc@cluster0.9f1qv5p.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 
 let UrlSchema = new mongoose.Schema({
   original_url: String,
@@ -38,7 +38,7 @@ app.use(cors());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
 
-app.get('/', function(req, res) {
+router.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
@@ -60,7 +60,7 @@ function get(urlId) {
   return localStorage.getItem(urlId);
 }
 
-app.post('/api/shorturl', function(req, res, next) {
+router.post('/api/shorturl', function(req, res, next) {
   // Middleware
   next();
 }, function(req, res) {
@@ -121,7 +121,7 @@ app.post('/api/shorturl', function(req, res, next) {
   });
 })
 
-app.get('/api/shorturl/:urlId', (req, res) => {
+router.get('/api/shorturl/:urlId', (req, res) => {
   console.log(req.params.urlId);
   const id = req.params.urlId;
   if (id != null) {
