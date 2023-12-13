@@ -52,24 +52,21 @@ router.post('/shorturl', function(req, res, next) {
   next();
 }, function(req, res) {
   const url = req.body.url;
-  dns.lookup(url, (err, addresses) => {
+  dns.lookup(url, (err, address) => {
 
-    if (err == null && addresses != null) {
+    if (err == null && address != null) {
       console.log('dns lookup successfull')
-      console.log('Address: ' + addresses)
+      console.log('Address: ' + address)
       
-      model.find({'dns_address': addresses}).count().exec()
+      model.find({ 'dns_address': address }).count().exec()
         .then(count => {
-          console.log(count)
+          console.log('Existing same dns documents count: ' + count)
           if (count > 0) {
             console.log('Item already in database')
-            
-            let obj;
-
-            model.find({ 'dns_address': addresses }).exec()
+            model.findOne({ 'dns_address': address }).exec()
               .then(doc => {
-                console.log('original_url from database: ' + doc[0].get('original_url'))
-                obj = {original_url: doc[0].get('original_url'), short_url: doc[0].get('short_url')}
+                console.log('original_url from database: ' + doc.get('original_url'))
+                let obj = { original_url: doc.get('original_url'), short_url: doc.get('short_url') }
                 
                 res.json(obj);
                 return;
@@ -83,7 +80,7 @@ router.post('/shorturl', function(req, res, next) {
               .count().exec()
               .then((count) => numberOfElements = count)
               .then(d => {
-                urlObj = {'original_url': url, 'dns_address': addresses, 'short_url': ++numberOfElements}
+                urlObj = {'original_url': url, 'dns_address': address, 'short_url': ++numberOfElements}
                 let msg = new model(urlObj);
                 msg.save()
                   .then((doc) => {
