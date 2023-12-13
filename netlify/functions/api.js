@@ -43,7 +43,7 @@ app.use('/public', express.static(`${process.cwd()}/public`));
 // });
 
 // Your first API endpoint
-app.get('/api/hello', function(req, res) {
+app.get('/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
 
@@ -60,7 +60,7 @@ function get(urlId) {
   return localStorage.getItem(urlId);
 }
 
-router.post('/api/shorturl', function(req, res, next) {
+router.post('/shorturl', function(req, res, next) {
   // Middleware
   next();
 }, function(req, res) {
@@ -121,7 +121,7 @@ router.post('/api/shorturl', function(req, res, next) {
   });
 })
 
-router.get('/api/shorturl/:urlId', (req, res) => {
+router.get('/shorturl/:urlId', (req, res) => {
   console.log(req.params.urlId);
   const id = req.params.urlId;
   if (id != null) {
