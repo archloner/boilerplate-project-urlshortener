@@ -47,19 +47,6 @@ app.get('/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-let urlId = 1;
-
-function save(url) {
-  let saved = localStorage.setItem(urlId, url);
-  const savedId = urlId;
-  urlId++;
-  return savedId;
-}
-
-function get(urlId) {
-  return localStorage.getItem(urlId);
-}
-
 router.post('/shorturl', function(req, res, next) {
   // Middleware
   next();
@@ -69,7 +56,7 @@ router.post('/shorturl', function(req, res, next) {
 
     if (err == null) {
       console.log('dns lookup successfull')
-      console.log(addresses)
+      console.log('Address: ' + addresses)
       
       model.find({'dns_address': addresses}).count().exec()
         .then(count => {
@@ -81,7 +68,7 @@ router.post('/shorturl', function(req, res, next) {
 
             model.find({ 'dns_address': addresses }).exec()
               .then(doc => {
-                console.log(doc[0].get('original_url'))
+                console.log('original_url from database: ' + doc[0].get('original_url'))
                 obj = {original_url: doc[0].get('original_url'), short_url: doc[0].get('short_url')}
                 
                 res.json(obj);
