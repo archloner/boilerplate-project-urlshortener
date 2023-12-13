@@ -47,11 +47,9 @@ app.get('/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-router.post('/shorturl', function(req, res, next) {
-  // Middleware
-  next();
-}, function(req, res) {
+router.post('/shorturl', function(req, res) {
   const url = req.body.url;
+  console.log('Request body url: ' + url)
   dns.lookup(url, (err, address) => {
 
     if (err == null) {
