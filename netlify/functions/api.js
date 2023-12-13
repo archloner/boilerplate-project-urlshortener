@@ -30,6 +30,7 @@ let model = mongoose.model('urlshortener-collection', UrlSchema);
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
