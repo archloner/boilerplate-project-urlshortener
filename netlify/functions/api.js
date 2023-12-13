@@ -6,6 +6,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended: false}))
+
 const dns = require('dns')
 
 require('dotenv').config();
@@ -28,10 +31,6 @@ let UrlSchema = new mongoose.Schema({
 
 let model = mongoose.model('urlshortener-collection', UrlSchema);
 
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
@@ -52,6 +51,7 @@ router.post('/shorturl', function(req, res) {
   const url = req.body.url;
   console.log('Request body url: ' + url)
   console.log('request body (full): ' + req.body)
+  console.log('typeof req.body = ' + typeof req.body)
   dns.lookup(url, (err, address) => {
 
     if (err == null) {
