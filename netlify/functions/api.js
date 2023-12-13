@@ -54,7 +54,7 @@ router.post('/shorturl', function(req, res, next) {
   const url = req.body.url;
   dns.lookup(url, (err, addresses) => {
 
-    if (err == null) {
+    if (err == null && addresses != null) {
       console.log('dns lookup successfull')
       console.log('Address: ' + addresses)
       
